@@ -1,15 +1,9 @@
 package com.mitocode.service;
 
-import com.mitocode.model.Patient;
+import com.mitocode.model.Medic;
 
 import java.util.List;
 
-public interface IPatientService {
-    //Patient validPatient(int id);
-
-    Patient save(Patient patient) throws Exception;
-    Patient update(Patient patient, Integer id) throws Exception;
-    List<Patient> findAll() throws Exception;
-    Patient findById(Integer id) throws Exception;
-    void delete(Integer id) throws Exception;
+public interface IMedicService extends ICRUD<Medic, Integer> {
+    //Medic validMedic(int id);
 }

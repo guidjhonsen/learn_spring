@@ -1,4 +1,6 @@
 package com.mitocode.repo;
 
-public interface IMedicRepo {
+import com.mitocode.model.Medic;
+
+public interface IMedicRepo extends IGenericRepo<Medic, Integer>{
 }
