@@ -4,13 +4,22 @@ import com.mitocode.dto.PatientDTO;
 import com.mitocode.model.Patient;
 import com.mitocode.service.IPatientService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.metamodel.mapping.EntityValuedModelPart;
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+
+
+import javax.swing.text.html.parser.Entity;
 import java.net.URI;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequiredArgsConstructor
@@ -56,6 +65,18 @@ public class PatientController {
     public ResponseEntity<Void> delete(@PathVariable Integer id) throws Exception{
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/hateoas/{id}")
+    public EntityModel<PatientDTO> findByIdHateoas(@PathVariable Integer id) throws Exception{
+        Patient obj = service.findById(id);
+        EntityModel<PatientDTO> resource=EntityModel.of(convertToDTO(obj));
+        WebMvcLinkBuilder link1 = linkTo(methodOn(PatientController.class).findById(obj.getIdPatient()));
+        WebMvcLinkBuilder link2 = linkTo(methodOn(PatientController.class).findAll());
+        resource.add(link1.withRel("patient-self-info"));
+        resource.add(link2.withRel("all-patients"));
+
+        return resource;
     }
 
     private Patient convertToEntity(PatientDTO dto){
