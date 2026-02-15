@@ -6,6 +6,7 @@ import com.mitocode.service.IPatientService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.metamodel.mapping.EntityValuedModelPart;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,8 @@ public class PatientController {
 
     //@Autowired
     private final IPatientService service;
+
+    @Qualifier("defaultMapper")
     private final ModelMapper modelMapper;
     /*public PatientController(IPatientService service) {
         this.service = service;

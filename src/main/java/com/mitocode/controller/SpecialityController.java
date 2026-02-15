@@ -5,6 +5,7 @@ import com.mitocode.model.Speciality;
 import com.mitocode.service.ISpecialityService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class SpecialityController {
 
     //@Autowired
     private final ISpecialityService service;
+    @Qualifier("defaultMapper")
     private final ModelMapper modelMapper;
     /*public SpecialityController(ISpecialityService service) {
         this.service = service;

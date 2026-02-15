@@ -5,6 +5,7 @@ import com.mitocode.model.Medic;
 import com.mitocode.service.IMedicService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class MedicController {
 
     //@Autowired
     private final IMedicService service;
+    @Qualifier("medicMapper")
     private final ModelMapper modelMapper;
     /*public MedicController(IMedicService service) {
         this.service = service;
