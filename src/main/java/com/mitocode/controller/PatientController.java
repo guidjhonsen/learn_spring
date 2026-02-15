@@ -3,6 +3,7 @@ package com.mitocode.controller;
 import com.mitocode.dto.PatientDTO;
 import com.mitocode.model.Patient;
 import com.mitocode.service.IPatientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.metamodel.mapping.EntityValuedModelPart;
 import org.modelmapper.ModelMapper;
@@ -51,7 +52,7 @@ public class PatientController {
     }
 
     @PostMapping
-    public ResponseEntity<PatientDTO> save(@RequestBody PatientDTO dto) throws Exception{
+    public ResponseEntity<Void> save(@Valid @RequestBody PatientDTO dto) throws Exception{
         Patient obj= service.save(convertToEntity(dto));//modelMapper.map(dto, Patient.class));
         URI location= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdPatient()).toUri();
 
@@ -59,7 +60,7 @@ public class PatientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PatientDTO> update(@RequestBody PatientDTO dto, @PathVariable Integer id) throws Exception{
+    public ResponseEntity<PatientDTO> update(@Valid @RequestBody PatientDTO dto, @PathVariable Integer id) throws Exception{
         Patient obj =service.update(convertToEntity(dto), id);//modelMapper.map(dto, Patient.class), id);
         return ResponseEntity.ok(convertToDTO(obj));//modelMapper.map(obj, PatientDTO.class));
     }
