@@ -3,6 +3,7 @@ package com.mitocode.controller;
 import com.mitocode.dto.PatientDTO;
 import com.mitocode.model.Patient;
 import com.mitocode.service.IPatientService;
+import com.mitocode.util.MapperUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.metamodel.mapping.EntityValuedModelPart;
@@ -31,8 +32,10 @@ public class PatientController {
     //@Autowired
     private final IPatientService service;
 
-    @Qualifier("defaultMapper")
-    private final ModelMapper modelMapper;
+    //@Qualifier("defaultMapper")
+    //private final ModelMapper modelMapper;
+    private final MapperUtil mapperUtil;
+
     /*public PatientController(IPatientService service) {
         this.service = service;
     }*/
@@ -40,20 +43,26 @@ public class PatientController {
     public ResponseEntity<List<PatientDTO>> findAll() throws Exception{
 
         //ModelMapper modelMapper =new ModelMapper();
-        List<PatientDTO> list= service.findAll().stream().map( this:: convertToDTO).toList();
+        //List<PatientDTO> list= service.findAll().stream().map( this:: convertToDTO).toList();
+        List<PatientDTO> list=mapperUtil.mapList(service.findAll(), PatientDTO.class);
 
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PatientDTO> findById(@PathVariable Integer id) throws Exception{
-        PatientDTO obj= convertToDTO(service.findById(id));//modelMapper.map(service.findById(id), PatientDTO.class);
+        //PatientDTO obj= convertToDTO(service.findById(id));//modelMapper.map(service.findById(id), PatientDTO.class);
+
+        PatientDTO obj= mapperUtil.map(service.findById(id), PatientDTO.class);
+
         return ResponseEntity.ok(obj);
     }
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody PatientDTO dto) throws Exception{
-        Patient obj= service.save(convertToEntity(dto));//modelMapper.map(dto, Patient.class));
+        //Patient obj= service.save(convertToEntity(dto));//modelMapper.map(dto, Patient.class));
+
+        Patient obj= service.save(mapperUtil.map(dto, Patient.class));
         URI location= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdPatient()).toUri();
 
         return ResponseEntity.created(location).build();
@@ -61,8 +70,12 @@ public class PatientController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PatientDTO> update(@Valid @RequestBody PatientDTO dto, @PathVariable Integer id) throws Exception{
-        Patient obj =service.update(convertToEntity(dto), id);//modelMapper.map(dto, Patient.class), id);
-        return ResponseEntity.ok(convertToDTO(obj));//modelMapper.map(obj, PatientDTO.class));
+        //dto.setIdPatient(id);
+
+        //Patient obj =service.update(convertToEntity(dto), id);//modelMapper.map(dto, Patient.class), id);
+        Patient obj =service.update(mapperUtil.map (dto, Patient.class), id);
+        //return ResponseEntity.ok(convertToDTO(obj));//modelMapper.map(obj, PatientDTO.class));
+        return ResponseEntity.ok(mapperUtil.map (obj, PatientDTO.class));
     }
 
     @DeleteMapping("/{id}")
@@ -74,7 +87,8 @@ public class PatientController {
     @GetMapping("/hateoas/{id}")
     public EntityModel<PatientDTO> findByIdHateoas(@PathVariable Integer id) throws Exception{
         Patient obj = service.findById(id);
-        EntityModel<PatientDTO> resource=EntityModel.of(convertToDTO(obj));
+        //EntityModel<PatientDTO> resource=EntityModel.of(convertToDTO(obj));
+        EntityModel<PatientDTO> resource=EntityModel.of(mapperUtil.map(obj, PatientDTO.class));
         WebMvcLinkBuilder link1 = linkTo(methodOn(PatientController.class).findById(obj.getIdPatient()));
         WebMvcLinkBuilder link2 = linkTo(methodOn(PatientController.class).findAll());
         resource.add(link1.withRel("patient-self-info"));
@@ -83,7 +97,7 @@ public class PatientController {
         return resource;
     }
 
-    private Patient convertToEntity(PatientDTO dto){
+    /*private Patient convertToEntity(PatientDTO dto){
         return modelMapper.map(dto, Patient.class);
     }
 

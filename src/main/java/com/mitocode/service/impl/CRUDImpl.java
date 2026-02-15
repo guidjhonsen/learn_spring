@@ -4,6 +4,7 @@ import com.mitocode.exception.ModelNotFoundException;
 import com.mitocode.repo.IGenericRepo;
 import com.mitocode.service.ICRUD;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -18,6 +19,13 @@ public abstract class CRUDImpl <T,ID> implements ICRUD<T, ID> {
 
     @Override
     public T update(T t, ID id) throws Exception {
+        String className = t.getClass().getSimpleName();//deviuelve el nombre de la clase
+
+        String methodName = "setId"+className;
+        Method setIdMethod = t.getClass().getMethod(methodName, id.getClass());
+
+        setIdMethod.invoke(t, id);
+
         getRepo().findById(id).orElseThrow(()-> new ModelNotFoundException("ID NOT FOUND: "+id));
         return getRepo().save(t);
     }
