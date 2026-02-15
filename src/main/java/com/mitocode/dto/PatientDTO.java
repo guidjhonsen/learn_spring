@@ -14,21 +14,21 @@ public class PatientDTO {
     private Integer idPatient;
 
     @NotNull
-    @Size(min = 3, max = 70, message = "El nombre debe tener entre 3 y 70 caracteres")
+    @Size(min = 3, max = 70, message = "{firstName.size}")
     //@Pattern(regexp = "^[A-Za-z]+$")
     private String firstName;
     @NotNull
-    @Size(min = 3, max = 70, message = "El apellido debe tener entre 3 y 70 caracteres")
+    @Size(min = 3, max = 70, message = "{lastname.size}")
     private String lastName;
     @NotNull
     private String dni;
     @NotNull
     private String address;
     @NotNull
-    @Pattern(regexp = "[0-9]+", message = "El teléfono solo debe contener números")
+    @Pattern(regexp = "[0-9]+", message = "{phone.regexp")
     private String phone;
     @NotNull
-    @Email (message = "Formato de correo no valido")
+    @Email (message = "{email.valid}")
     private String email;
 
 }
