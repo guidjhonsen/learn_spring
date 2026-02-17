@@ -1,9 +1,6 @@
 package com.mitocode.model;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,11 +13,14 @@ import lombok.NoArgsConstructor;
 public class ConsultExam {
 
     @Id
-    private Consult consult;
+ /*   @JoinColumn(name = "id_consult", nullable = false)
+    @ManyToOne(optional = false)
+   */ private Consult consult;
 
     @Id
-    private Exam exam;
-
+  /*  @ManyToOne(optional = false)
+    @JoinColumn(name = "id_exam", nullable = false)
+    */private Exam exam;
 
 
 }

@@ -19,11 +19,14 @@ public class ConsultDetail {
     private Integer idDetail;
 
     @ManyToOne
-    @JoinColumn(name = "id_consult", nullable = false, foreignKey = @ForeignKey(name="fk_detail_consult"))
+    @JoinColumn(name = "id_consult", nullable = false, foreignKey = @ForeignKey(name = "fk_detail_consult"))
     private Consult consult;
 
     @Column(nullable = false, length = 70)
     private String diagnosis;
+
     @Column(nullable = false, length = 300)
     private String treatment;
+
+
 }

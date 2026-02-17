@@ -10,17 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Data
-/*@Getter
-@Setter
-@ToString
-@EqualsAndHashCode*/
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Medic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Integer idMedico;
+    private Integer idMedic;
 
     @ManyToOne//FK
     @JoinColumn(name="id_speciality",nullable = false, foreignKey = @ForeignKey(name="fk_medic_speciality"))

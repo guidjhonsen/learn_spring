@@ -56,7 +56,7 @@ public class MedicController {
     public ResponseEntity<MedicDTO> save(@RequestBody MedicDTO dto) throws Exception{
         //Medic obj= service.save(convertToEntity(dto));//modelMapper.map(dto, Medic.class));
         Medic obj= service.save(mapperUtil.map(dto, Medic.class, "medicMapper"));
-        URI location= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdMedico()).toUri();
+        URI location= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdMedic()).toUri();
 
         return ResponseEntity.created(location).build();
     }
@@ -81,14 +81,14 @@ public class MedicController {
         Medic obj = service.findById(id);
         //EntityModel<MedicDTO> resource=EntityModel.of(convertToDTO(obj));
         EntityModel<MedicDTO> resource=EntityModel.of(mapperUtil.map(obj, MedicDTO.class, "medicMapper"));
-        WebMvcLinkBuilder link1 = linkTo(methodOn(MedicController.class).findById(obj.getIdMedico()));
+        WebMvcLinkBuilder link1 = linkTo(methodOn(MedicController.class).findById(obj.getIdMedic()));
         WebMvcLinkBuilder link2 = linkTo(methodOn(MedicController.class).findAll());
         resource.add(link1.withRel("medic-self-info"));
         resource.add(link2.withRel("all-medics"));
 
         return resource;
     }
-    
+
     /*
     private Medic convertToEntity(MedicDTO dto){
         return modelMapper.map(dto, Medic.class);
