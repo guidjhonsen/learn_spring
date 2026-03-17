@@ -33,7 +33,7 @@ public class Consult {
     @JoinColumn(name = "id_user", nullable = false, foreignKey = @ForeignKey(name = "fk_consult_user"))
     private User user;
 
-    @Column(nullable = false, length = 3)
+    @Column(nullable = false, length = 5)
     private String numConsult;
 
     @Column(nullable = false)
