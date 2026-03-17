@@ -2,10 +2,12 @@ package com.mitocode.controller;
 
 import com.mitocode.dto.ConsultDTO;
 import com.mitocode.dto.ConsultListExamDTO;
+import com.mitocode.dto.FilterConsultDTO;
 import com.mitocode.model.Consult;
 import com.mitocode.model.Exam;
 import com.mitocode.service.IConsultService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.EntityModel;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -82,6 +85,20 @@ public class ConsultController {
         resource.add(link2.withRel("all-consults"));
 
         return resource;
+    }
+
+    @PostMapping("/search/others")
+    public ResponseEntity<List<ConsultDTO>> searchByOthers(@RequestBody FilterConsultDTO dto) {
+
+        List<ConsultDTO> list =service.search(dto.getDni(), dto.getFullname()).stream().map(this::convertToDTO).toList();
+
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/search/dates")
+    public ResponseEntity<List<ConsultDTO>> searchByDates(@RequestParam("date1") String date1, @RequestParam("date2") String date2) throws Exception{
+        List<ConsultDTO> list = service.searchByDates(LocalDateTime.parse(date1), LocalDateTime.parse(date2)).stream().map(this::convertToDTO).toList();
+        return ResponseEntity.ok(list);
     }
 
     private Consult convertToEntity(ConsultDTO dto){

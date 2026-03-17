@@ -16,5 +16,5 @@ public interface IConsultRepo extends IGenericRepo<Consult, Integer>{
     List<Consult> search(@Param("dni") String dni,@Param("fullname") String fullname);
 
     @Query("FROM Consult c WHERE c.consultDate BETWEEN :date1 AND :date2")
-    List<Consult> seachrByDate(@Param("date1")LocalDateTime date1, @Param("date2")LocalDateTime date2);
+    List<Consult> searchByDate(@Param("date1")LocalDateTime date1, @Param("date2")LocalDateTime date2);
 }
