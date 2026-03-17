@@ -1,6 +1,8 @@
 package com.mitocode.config;
 
+import com.mitocode.dto.ConsultDTO;
 import com.mitocode.dto.MedicDTO;
+import com.mitocode.model.Consult;
 import com.mitocode.model.Medic;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +38,15 @@ public class MapperConfig {
         return modelMapper;
     }
 
-    @Bean()
+    @Bean(name="consultMapper")
+    public ModelMapper consultMapper(){
+        ModelMapper modelMapper = new ModelMapper();
+
+        modelMapper.createTypeMap(Consult.class, ConsultDTO.class)
+                .addMapping(e ->e.getMedic().getFirstName(), (dest, v) ->dest.getMedic().setPrimaryName((String) v))
+                .addMapping(e->e.getMedic().getLastName(), (dest, v)->dest.getMedic().setSurname((String) v));
+
+        return modelMapper;
+    }
 
 }

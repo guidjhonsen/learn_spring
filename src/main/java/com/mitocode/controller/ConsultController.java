@@ -30,7 +30,7 @@ public class ConsultController {
 
     //@Autowired
     private final IConsultService service;
-    @Qualifier("defaultMapper")
+    @Qualifier("consultMapper")
     private final ModelMapper modelMapper;
     /*public ConsultController(IConsultService service) {
         this.service = service;
