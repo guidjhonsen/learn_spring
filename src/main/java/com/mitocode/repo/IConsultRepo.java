@@ -11,6 +11,6 @@ public interface IConsultRepo extends IGenericRepo<Consult, Integer>{
     //jpql
 
 
-    @Query("FROM Consult c WHERE c.patient.dni=:dni OR c.patient.firstName LIKE %:fullname% OR c.patient.lastName LIKE %:fullname%")
+    @Query("FROM Consult c WHERE c.patient.dni=:dni OR LOWER(c.patient.firstName) LIKE %:fullname% OR LOWER(c.patient.lastName) LIKE %:fullname%")
     List<Consult> search(@Param("dni") String dni,@Param("fullname") String fullname);
 }
