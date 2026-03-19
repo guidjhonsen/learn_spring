@@ -2,6 +2,7 @@ package com.mitocode.controller;
 
 import com.mitocode.dto.ConsultDTO;
 import com.mitocode.dto.ConsultListExamDTO;
+import com.mitocode.dto.ConsultProcDTO;
 import com.mitocode.dto.FilterConsultDTO;
 import com.mitocode.model.Consult;
 import com.mitocode.model.Exam;
@@ -99,6 +100,11 @@ public class ConsultController {
     public ResponseEntity<List<ConsultDTO>> searchByDates(@RequestParam("date1") String date1, @RequestParam("date2") String date2) throws Exception{
         List<ConsultDTO> list = service.searchByDates(LocalDateTime.parse(date1), LocalDateTime.parse(date2)).stream().map(this::convertToDTO).toList();
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/callProcedureManual")
+    public ResponseEntity<List<ConsultProcDTO>> callProcedureOrFunctionManual(){
+        return ResponseEntity.ok(service.callProcedureOrFunctionManual());
     }
 
     private Consult convertToEntity(ConsultDTO dto){
