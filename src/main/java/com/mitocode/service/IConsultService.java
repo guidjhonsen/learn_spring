@@ -14,4 +14,6 @@ public interface IConsultService extends ICRUD<Consult, Integer> {
     List<Consult> search(String dni, String fullname);
     List<Consult> searchByDates (LocalDateTime date1, LocalDateTime date2);
     List<ConsultProcDTO> callProcedureOrFunctionManual();
+
+    byte[] generateReport() throws Exception;
 }
