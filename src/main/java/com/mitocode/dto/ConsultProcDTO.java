@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class ConsultProcDTO {
 
     private Integer quantity;
-    private String consultDate;
+    private String consultdate;
 
 }

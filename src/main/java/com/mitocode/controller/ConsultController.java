@@ -108,7 +108,7 @@ public class ConsultController {
         return ResponseEntity.ok(service.callProcedureOrFunctionManual());
     }
 
-    @GetMapping(value = "/generateReport", produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/generateReport", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)//APPLICATION_PDF_VALUE
     public ResponseEntity<byte[]> generateReport() throws Exception{
         return ResponseEntity.ok(service.generateReport());
     }

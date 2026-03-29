@@ -75,7 +75,7 @@ public class ConsultServiceImpl extends CRUDImpl<Consult, Integer> implements IC
                 el ->{
                     ConsultProcDTO dto = new ConsultProcDTO();
                     dto.setQuantity(el.getQuantity());
-                    dto.setConsultDate(el.getConsultDate());
+                    dto.setConsultdate(el.getConsultdate());
 
                     list.add(dto);
                 }
