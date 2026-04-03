@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.metamodel.mapping.EntityValuedModelPart;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -96,6 +98,15 @@ public class PatientController {
         resource.add(link2.withRel("all-patients"));
 
         return resource;
+    }
+
+
+
+    @GetMapping("/pageable")
+    public ResponseEntity<Page<Patient>> listPage(Pageable pageable){
+        Page<Patient> page = service.listPage(pageable);
+        System.out.println("accede");
+        return ResponseEntity.ok(page);
     }
 
     /*private Patient convertToEntity(PatientDTO dto){
