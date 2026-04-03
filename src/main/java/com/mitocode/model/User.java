@@ -35,7 +35,7 @@ public class User {
     private boolean enabled;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns=@JoinColumn(name = "id_user", referencedColumnName = "idUser"),
             inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "idRole")

@@ -30,7 +30,7 @@ public class Menu {
     @Column(nullable = false,length = 150)
     private String url;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "menu_role",
             joinColumns=@JoinColumn(name = "id_menu", referencedColumnName = "idMenu"),
             inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "idRole")

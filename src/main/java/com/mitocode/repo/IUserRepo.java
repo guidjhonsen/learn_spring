@@ -6,11 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface IUserRepo extends IGenericRepo<User, Integer>{
 
-    //Queries Derivados
-    //@Query("FROM User u WHERE u.username = ?1")
-    User findOneByUserName(String username);
+    /*User findOneByUserName(String username);
 
     org.springframework.security.core.userdetails.User findOneByUserName(String userName);
 
-    User findOneByUserName(String userName);
+    User findOneByUserName(String userName);*/
+
+    User findOneByUsername(String username);
 }
