@@ -12,5 +12,5 @@ public interface IUserRepo extends IGenericRepo<User, Integer>{
 
     User findOneByUserName(String userName);*/
 
-    User findOneByUsername(String username);
+    User findOneByUsername(String userName);
 }

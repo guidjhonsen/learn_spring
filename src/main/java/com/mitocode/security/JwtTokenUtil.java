@@ -3,7 +3,6 @@ package com.mitocode.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,42 +14,40 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+//Clase S1
+
 @Component
 public class JwtTokenUtil {
-    private final long JWT_TOKEN_VALIDITY=5*60*60*1000;
+    private final long JWT_TOKEN_VALIDITY = 5 * 60 * 60 * 1000; // 5 horas
 
-    @Value("S{jwt.secret}")
+    @Value("${jwt.secret}")
     private String secret;
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(UserDetails userDetails) {
+        //Payload
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
         claims.put("test", "mc-test");
 
+        //Generar token
         return Jwts.builder()
                 .claims(claims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+JWT_TOKEN_VALIDITY))
+                .expiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
 
 
     //utils
-
     public Claims getAllClaimsFromToken(String token){
         SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
-        return Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
     }
 
-    //saber el nombre de usuario a partir del token
-
-    public String getUserNameFromToken(String token){
+    public String getUsernameFromToken(String token){
         return getAllClaimsFromToken(token).getSubject();
     }
 
@@ -58,13 +55,13 @@ public class JwtTokenUtil {
         return getAllClaimsFromToken(token).getExpiration();
     }
 
-    public boolean isTokenExpired(String token){
+    private boolean isTokenExpired(String token){
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
 
-    public boolean validationToke(String token, UserDetails userDetails){
-        final String username = getUserNameFromToken(token);
+    public boolean validateToken(String token, UserDetails userDetails){
+        final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }

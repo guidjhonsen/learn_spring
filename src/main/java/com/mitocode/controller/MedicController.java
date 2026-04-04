@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -33,6 +34,8 @@ public class MedicController {
     /*public MedicController(IMedicService service) {
         this.service = service;
     }*/
+    //@PreAuthorize("hasAnyAuthority(ADMIN)")
+    //@PreAuthorize("@authorizeLogic.hasAccess('findAll')")
     @GetMapping
     public ResponseEntity<List<MedicDTO>> findAll() throws Exception{
 

@@ -33,10 +33,11 @@ public class LoginController {
     public ResponseEntity<Boolean> login(@RequestBody JwtRequest jwtRequest, HttpServletResponse response) throws Exception {
         try{
             authenticate(jwtRequest.getUsername(), jwtRequest.getPassword());
-
+            System.out.println("accede 2: "+jwtRequest.getUsername()+" "+jwtRequest.getPassword());
             final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(jwtRequest.getUsername());
+            System.out.println("accede 4: ");
             final String accessToken = jwtTokenUtil.generateToken(userDetails);
-
+            System.out.println("accede 3: "+accessToken);
             ResponseCookie cookie = ResponseCookie.from("jwt", accessToken)
                     .httpOnly(true)
                     .secure(false) //true para produccion en https
@@ -50,16 +51,21 @@ public class LoginController {
             return ResponseEntity.ok(true);
             //return ResponseEntity.ok(new JwtResponse(accessToken));
         }catch (Exception e){
+            System.out.println("ERROR: "+e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
     private void authenticate(String username, String password) throws Exception{
         try {
+            System.out.println("ACCEDE: "+username+ " "+ password);
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            System.out.println("despues");
         } catch (DisabledException e) {
+            System.out.println("Password incorrecto 1: "+e);
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
+            System.out.println("Password incorrecto 2: "+e);
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
